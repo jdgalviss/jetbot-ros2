@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jetbot Control through WebRTC</title>
+    <style>
+        button {
+            padding: 8px 16px;
+        }
+
+        video {
+            width: 100%;
+        }
+
+        .option {
+            margin-bottom: 8px;
+        }
+
+        .center {
+            margin: 0 auto;
+            width: 720px;
+        }
+
+        #media {
+            margin: 0 auto;
+
+            max-width: 920px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="Header">
+        <h1>Jetbot Control through WebRTC</h1>
+        <p>This interface allows to control the Jetbot platform using either the keyboard while watching live feed from
+            the robot's frontal camera</p>
+        <p>First, enter the jetbot's IP address</p>
+
+        <form id="form" onsubmit="return false;">
+            <input type="text" id="userInput" />
+            <input type="submit" id="submitIP" />
+        </form>
+    </div>
+    <script type="text/javascript" src="controller.js"></script>
+
+    <h2>WebRTC</h2>
+    <div class="option">
+        <input id="use-stun" type="checkbox" checked />
+        <label for="use-stun">Use STUN server</label>
+    </div>
+    <button id="start" onclick="start()">Start</button>
+    <button id="stop" style="display: none" onclick="stop()">Stop</button>
+
+    <div id="media">
+        <audio id="audio" autoplay="true"></audio>
+        <video id="video" autoplay="true" playsinline="true"></video>
+    </div>
+
+    <script src="client.js"></script>
+
+    <!-- <div id = "sse">
+        <a href = "javascript:WebSocketTest()">Run WebSocket</a>
+    </div> -->
+    <h3>Teleoperation </h3>
+    <div id="Steering">steering = 0</div>
+    <div id="Throttle">throttle = 0</div>
+    <div id="Throttle_factor">throttle_factor = 0.2</div>
+
+    <p id="demo"></p>
+</body>
+
+</html>

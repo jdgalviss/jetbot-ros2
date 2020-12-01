@@ -1,0 +1,7 @@
+dev_ws/build
+dev_ws/install
+dev_ws/log
+*pycache*
+*pyc
+*.log
+dev_ws/src/ros2_intel_realsense
