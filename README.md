@@ -2,7 +2,7 @@
 
 ## For local server
 pip install SimpleWebSocketServer
-python3 -m http.server 1234 --directory /home/jdbot/repos/nano_jetbot/local_server/
+python3 -m http.server 1234 --directory /home/jdbot/repos/jetbot-ros2/local_server/
 
 # For webrtc
 pip3 install crc32c==2.0
