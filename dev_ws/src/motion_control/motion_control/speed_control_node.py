@@ -1,7 +1,10 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
-from jetbot import Robot
+import os
+IS_LOCAL = os.getenv('IS_LOCAL', False)
+if not IS_LOCAL:
+    from jetbot import Robot
 
 wheelbase = 0.10
 wheel_radius = 0.03
@@ -12,7 +15,8 @@ class SpeedController(Node):
         self.cmd_sub_ = self.create_subscription(
             Twist, 'jetbot/cmd', self.cmd_callback, 10)
         self.cmd_sub_  # prevent unused variable warning
-        self.robot = Robot()
+        if not IS_LOCAL:
+            self.robot = Robot()
 
     def inverse_diff_kinematics(self, vel, yaw_rate):
         vel = vel/30.0
@@ -30,8 +34,9 @@ class SpeedController(Node):
             yaw_rate_ref = -yaw_rate_ref
         wheel_speed_l, wheel_speed_r = self.inverse_diff_kinematics(
             vel_ref, yaw_rate_ref)
-        print("wl: {}".format(wheel_speed_l))
-        self.robot.set_motors(wheel_speed_r, -wheel_speed_l)
+        # print("wl: {}".format(wheel_speed_l))
+        if not IS_LOCAL:
+            self.robot.set_motors(wheel_speed_r, -wheel_speed_l)
 
 
 def main(args=None):

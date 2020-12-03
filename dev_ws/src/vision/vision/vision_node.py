@@ -19,7 +19,7 @@ class Vision(Node):
     def loop(self):
         while(True):
             # Capture frame-by-frame
-            ret, frame = self.cap.read()
+            _, frame = self.cap.read()
 
             # Our operations on the frame come here
             frame = cv2.resize(frame,(VIDEO_WIDTH,VIDEO_HEIGHT))
