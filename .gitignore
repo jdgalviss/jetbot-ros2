@@ -5,3 +5,4 @@ dev_ws/log
 *pyc
 *.log
 dev_ws/src/ros2_intel_realsense
+*.vscode*
