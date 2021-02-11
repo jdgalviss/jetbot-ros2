@@ -1,27 +1,37 @@
 # Jetbot-ros2
+[image1]: imgs/jetbot.png "jetbot"
+[image2]: imgs/cartographer.gif "2D"
+[image3]: imgs/rtabmap.gif "rtabmap"
+[image4]: imgs/jetbot.gif "jetbot_gif"
 
-This is an implementation of a mobile robot in ros2. The software includes following functionalities:
+
+This is an implementation of a mobile robot in ros2. The software includes the following functionalities:
 
 * Teleoperation through websockets with live video feed using webrtc ([aiortc](https://github.com/aiortc/aiortc)).
 
-* Integration of Intel realsese d435 and t265 cameras for depth estimation and localization respectively.
+* Integration of Intel realsense d435 and t265 cameras for depth estimation and localization respectively.
 
 * 2D SLAM with [cartographer](https://github.com/ros2-gbp/cartographer-release).
 
-* 3D SLAM using [rtabmap](https://github.com/introlab/rtabmap)
+* 3D SLAM using [rtabmap](https://github.com/introlab/rtabmap).
+
+I used the Xiaor Geek Jetbot as a base platform and modified it to include a wide-angle camera, as well as the Intel Realsense d435 and t265.
+
+![rs-viewer][image1]
 
 ## Requirements
-* ROS2 eloquent or foxy
-* [librealsense2](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md)
+* ROS2 eloquent or foxy.
+* [librealsense2](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md).
+* Motor Drivers - In this case, installed from the jetbot's [repository](https://github.com/NVIDIA-AI-IOT/jetbot/).
 
 # Installation
 
-1. Clone this repo and its submodules
+1. Clone this repo and its submodules.
     ```bash
     git clone --recurse-submodules https://github.com/cameronmcnz/surface.git 
     ```
 ## Teleoperation support
-2. Install aiortc for webrtc support
+2. Install aiortc for webrtc support.
     ```bash
     pip3 install crc32c==2.0
     pip3 install aiortc
@@ -49,55 +59,54 @@ This is an implementation of a mobile robot in ros2. The software includes follo
     chmod +x /etc/rc.local
     ```
 ## SLAM Support
-1. Install Cartographer
+1. Install Cartographer.
     ```bash
     sudo apt-get install ros-<distro>-cartographer
     ```
 
-2. Install Rtabmap
+2. Install rtabmap and rtabmap_ros following these [instructions](https://github.com/introlab/rtabmap_ros/tree/ros2#rtabmap_ros) in the branch **ros2**.
+
+## Build ros 2 workspace
+    ```bash
+    cd dev_ws
+    source /opt/ros/<distro>/setup.bash
+    colcon build
+    . /install/setup.bash
+    ```
+
 
 # Run
-1. Run local server
+1. Run local teleoperation server.
+    ```bash
+    python3 local_server/webcam.py
+    ```
+    In a browser, open the teleoperation interface by going to: <jetson_nano's ip-address>:8080
 
-## For local server
-using aiohttp
-simply run: python3 webcam.py
-DEPRECATED:
-    pip install SimpleWebSocketServer
-    python3 -m http.server 1234 --directory /home/jdbot/repos/jetbot-ros2/local_server/
+2. In a new terminal, run the motion control launchfile to start streaming video and receiving motion commands.
+    ```bash
+    ros2 launch motion_control jetbot_launch.py
+    ```
+3. Run SLAM.
+    * For 2D-SLAM, in another terminal:
+    ```bash
+    ros2 launch realsense_ros2 slam_cartogrepher_launch.py
+    ```
+    * For 3D-SLAM, in another terminal:
+    ```bash
+    ros2 launch realsense_ros2 slam_rtabmap_launch.py
+    ```
+    3D Dense SLAM is too resource consuming for the Jetson Nano, in this case it is recommended to run it on a remote host. For this, simply set the same DOMAIN_ID on both the Jetson Nano and the remote host. (e.g. export DOMAIN_ID=0) and run the cameras in the Jetson Nano:
+    ```bash
+    ros2 launch realsense_ros2 realsense_launch.py
+    ```
+    Comment the nodes corresponding to the cameras on the host and run the rtabmap launch:
+    ```bash
+    ros2 launch realsense_ros2 slam_rtabmap_launch.py
+    ```
 
-# For webrtc
-pip3 install crc32c==2.0
-pip3 install aiortc
-pip3 install aiohttp
+# Results
+[Video](https://youtu.be/T4csWliWSWs)
 
-
-# For fake cam in webrtc
-apt-get install v4l2loopback-utils
-pip3 install pyfakewebcam
-modprobe v4l2loopback devices=2 # will create two fake webcam devices
-
-#For service on startup with sudo privilege
-Create a file: /etc/rc.local
-
-File contents:
-
-#!/bin/sh -e
-modprobe v4l2loopback devices=2 # will create two fake webcam devices
-exit 0
-
-Save the file and make it executable with this command:
-sudo chmod +x /etc/rc.local
-
-# For ROS Navigation stack
-sudo apt install ros-foxy-navigation2
-sudo apt install ros-foxy-nav2-bringup
-sudo apt install ros-foxy-turtlebot3*
-
-sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup '~ros-foxy-turtlebot3-.*'
-
-git clone https://github.com/ros-planning/navigation2.git --branch foxy-devel
-rosdep install -y -r -q --from-paths src --ignore-src --rosdistro foxy
-
-
-
+![jetbot][image4]
+![cartographer][image2]
+![rtabmap][image3]
