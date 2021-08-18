@@ -25,10 +25,30 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 * Motor Drivers - In this case, installed from the jetbot's [repository](https://github.com/NVIDIA-AI-IOT/jetbot/).
 
 # Installation
+0. Dependencies:
+    ```bash
 
+        sudo apt install ros-eloquent-navigation2
+        sudo apt install ros-eloquent-nav2-bringup
+
+    ```
 1. Clone this repo and its submodules.
     ```bash
     git clone --recurse-submodules https://github.com/cameronmcnz/surface.git 
+    ```
+2. Install packages
+    ```bash
+    cd dev_ws/src
+    git clone -b eloquent-devel git@github.com:stevemacenski/slam_toolbox.git 
+
+    git clone https://github.com/ros-planning/navigation2.git --branch eloquent-devell
+
+    rosdep install -y -r -q --from-paths src --ignore-src --rosdistro eloquent
+    colcon build --symlink-install
+    colcon build --packages-select motion_control
+
+
+    git clone https://github.com/jdgalviss/realsense_ros2.git
     ```
 ## Teleoperation support
 2. Install aiortc for webrtc support.
@@ -89,7 +109,7 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 3. Run SLAM.
     * For 2D-SLAM, in another terminal:
     ```bash
-    ros2 launch realsense_ros2 slam_cartogrepher_launch.py
+    ros2 launch realsense_ros2 cartogrepher_launch.py
     ```
     * For 3D-SLAM, in another terminal:
     ```bash
@@ -110,3 +130,8 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 ![jetbot][image4]
 ![cartographer][image2]
 ![rtabmap][image3]
+
+
+<!-- sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE -->
+
+

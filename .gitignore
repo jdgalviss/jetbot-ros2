@@ -5,3 +5,8 @@ dev_ws/log
 *pyc
 *.log
 *.vscode*
+
+dev_ws/src/BehaviorTree.CPP
+dev_ws/src/m-explore
+dev_ws/src/navigation2
+dev_ws/src/slam_toolbox

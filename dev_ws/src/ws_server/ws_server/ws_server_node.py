@@ -16,7 +16,7 @@ class WSServerNode(Node):
         super().__init__('ws_server')
 
         # Speed commands publisher (commands are received by WS server)
-        self.cmd_publisher_ = self.create_publisher(Twist, 'jetbot/cmd', 10)
+        self.cmd_publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
         # Start WS Server and loop
         start_server = websockets.serve(
             self.run_server, HOST_IP, port)
