@@ -1,6 +1,6 @@
-# [submodule "dev_ws/src/realsense_ros2"]
-# 	path = dev_ws/src/realsense_ros2
-# 	url = git@github.com:jdgalviss/realsense_ros2.git
+[submodule "dev_ws/src/realsense_ros2"]
+	path = dev_ws/src/realsense_ros2
+	url = git@github.com:jdgalviss/realsense_ros2.git
 # [submodule "dev_ws/src/ros2_intel_realsense"]
 # 	path = dev_ws/src/ros2_intel_realsense
 # 	url = https://github.com/intel/ros2_intel_realsense.git

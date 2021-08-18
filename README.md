@@ -11,7 +11,11 @@ This is an implementation of a mobile robot in ros2. The software includes the f
 
 * Integration of Intel realsense d435 and t265 cameras for depth estimation and localization respectively.
 
-* 2D SLAM with [cartographer](https://github.com/ros2-gbp/cartographer-release).
+* Autonomous Navigation using [Nav2](https://github.com/ros-planning/navigation2)
+
+* Autonomous Exploration using [m-explore](https://github.com/robo-friends/m-explore-ros2)
+
+* 2D SLAM with [slam-toolbox](https://github.com/SteveMacenski/slam_toolbox).
 
 * 3D SLAM using [rtabmap](https://github.com/introlab/rtabmap).
 
@@ -20,51 +24,72 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 ![rs-viewer][image1]
 
 ## Requirements
-* ROS2 eloquent or foxy.
+* ROS2 eloquent.
 * [librealsense2](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md).
 * Motor Drivers - In this case, installed from the jetbot's [repository](https://github.com/NVIDIA-AI-IOT/jetbot/).
 
 # Installation
-0. Dependencies:
+<!-- 0. Dependencies:
     ```bash
 
         sudo apt install ros-eloquent-navigation2
         sudo apt install ros-eloquent-nav2-bringup
 
-    ```
+    ``` -->
 1. Clone this repo and its submodules.
     ```bash
-    git clone --recurse-submodules https://github.com/cameronmcnz/surface.git 
+    git clone --recurse-submodules https://github.com/jdgalviss/jetbot-ros2.git
     ```
-2. Install packages
+
+2. Clone additional thirdparty packages
+    1. SLAM-TOOLBOX
+        ```bash
+        cd jetbot-ros2/dev_ws/src
+        git clone -b eloquent-devel git@github.com:stevemacenski/slam_toolbox.git 
+        ```
+
+    2. Navigation2
+        ```bash
+        git clone https://github.com/ros-planning/navigation2.git --branch eloquent-devell
+        ```
+
+    3. m-explore
+        ```bash
+        git clone -b eloquent https://github.com/robo-friends/m-explore-ros2.git
+        ```
+
+    4. BehaviorTree.CPP
+        ```bash
+        git clone https://github.com/BehaviorTree/BehaviorTree.CPP.git
+        cd BehaviorTree.CPP
+        git checkout 3.5.1
+        cd ../..
+        ```
+
+3. Copy our modified files
     ```bash
-    cd dev_ws/src
-    git clone -b eloquent-devel git@github.com:stevemacenski/slam_toolbox.git 
-
-    git clone https://github.com/ros-planning/navigation2.git --branch eloquent-devell
-
-    rosdep install -y -r -q --from-paths src --ignore-src --rosdistro eloquent
-    colcon build --symlink-install
-    colcon build --packages-select motion_control
-
-
-    git clone https://github.com/jdgalviss/realsense_ros2.git
+    cd thirdparty_files
+    source copy_files.sh
+    cd ../..
     ```
+    <!-- colcon build --packages-select motion_control -->
+
+
 ## Teleoperation support
-2. Install aiortc for webrtc support.
+4. Install aiortc for webrtc support.
     ```bash
     pip3 install crc32c==2.0
     pip3 install aiortc
     pip3 install aiohttp
     ```
 
-3. Install pyfakewebcam so that camera frames can be modified inside a ROS2 node and then shared through webrtc:
+5. Install pyfakewebcam so that camera frames can be modified inside a ROS2 node and then shared through webrtc:
     ```bash
     apt-get install v4l2loopback-utils
     pip3 install pyfakewebcam
     ```
 
-4. Write a service that creates fake webcam devices that can be used to share camera frames.
+6. Write a service that creates fake webcam devices that can be used to share camera frames.
     ```bash
     gedit /etc/rc.local
     ```
@@ -79,23 +104,18 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
     chmod +x /etc/rc.local
     ```
 ## SLAM Support
-1. Install Cartographer.
-    ```bash
-    sudo apt-get install ros-<distro>-cartographer
-    ```
-
-2. Install rtabmap and rtabmap_ros following these [instructions](https://github.com/introlab/rtabmap_ros/tree/ros2#rtabmap_ros) in the branch **ros2**.
+ Install rtabmap and rtabmap_ros following these [instructions](https://github.com/introlab/rtabmap_ros/tree/ros2#rtabmap_ros) in the branch **ros2**.
 
 ## Build ros 2 workspace
-    ```bash
-    cd dev_ws
-    source /opt/ros/<distro>/setup.bash
-    colcon build
-    . /install/setup.bash
-    ```
+```bash
+cd dev_ws
+rosdep install -y -r -q --from-paths src --ignore-src --rosdistro eloquent
+colcon build --symlink-install
+```
 
 
 # Run
+## Teleoperation
 1. Run local teleoperation server.
     ```bash
     python3 local_server/webcam.py
@@ -106,11 +126,22 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
     ```bash
     ros2 launch motion_control jetbot_launch.py
     ```
-3. Run SLAM.
-    * For 2D-SLAM, in another terminal:
+## Navigation
+3. In a new terminal, run nav2
     ```bash
-    ros2 launch realsense_ros2 cartogrepher_launch.py
+    ros2 launch nav2_bringup nav2_navigation_launch.py
     ```
+
+## SLAM
+5. To Run SLAM.
+    * For 2D-SLAM, in another terminal:
+        ```bash
+        ros2 launch realsense_ros2 realsense_launch.py
+        ```
+        In another terminal:
+        ```bash
+        ros2 launch slam_toolbox online_async_launch.py
+        ```
     * For 3D-SLAM, in another terminal:
     ```bash
     ros2 launch realsense_ros2 slam_rtabmap_launch.py
@@ -124,6 +155,11 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
     ros2 launch realsense_ros2 slam_rtabmap_launch.py
     ```
 
+# Exploration
+4. In a new terminal, run explore_lite
+    ```bash
+    ros2 run explore_lite explore --ros-args -p costmap_topic:=/map -p visualize:=true -p use_sim_time:=false -p min_frontier_size:=0.4 -p planner_frequency:=0.5
+    ```
 # Results
 [Video](https://youtu.be/T4csWliWSWs)
 
