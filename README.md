@@ -5,6 +5,9 @@
 [image4]: imgs/jetbot.gif "jetbot_gif"
 
 
+https://user-images.githubusercontent.com/18732666/129964798-20e26b2a-da38-41fb-a794-ec31973ca0cb.mp4
+
+
 This is an implementation of a mobile robot in ros2. The software includes the following functionalities:
 
 * Teleoperation through websockets with live video feed using webrtc ([aiortc](https://github.com/aiortc/aiortc)).
@@ -160,13 +163,14 @@ colcon build --symlink-install
     ```bash
     ros2 run explore_lite explore --ros-args -p costmap_topic:=/map -p visualize:=true -p use_sim_time:=false -p min_frontier_size:=0.4 -p planner_frequency:=0.5
     ```
-# Results
+# Some Results
 [Video](https://youtu.be/T4csWliWSWs)
 
 ![jetbot][image4]
 ![cartographer][image2]
 ![rtabmap][image3]
 
+https://user-images.githubusercontent.com/18732666/129964798-20e26b2a-da38-41fb-a794-ec31973ca0cb.mp4
 
 <!-- sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE -->
 
