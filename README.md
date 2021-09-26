@@ -82,14 +82,14 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 4. Install aiortc for webrtc support.
     ```bash
     pip3 install crc32c==2.0
-    pip3 install aiortc
-    pip3 install aiohttp
+    pip3 install aiortc==0.9.28
+    pip3 install aiohttp==3.6.2
     ```
 
 5. Install pyfakewebcam so that camera frames can be modified inside a ROS2 node and then shared through webrtc:
     ```bash
     apt-get install v4l2loopback-utils
-    pip3 install pyfakewebcam
+    pip3 install pyfakewebcam==0.1.0
     ```
 
 6. Write a service that creates fake webcam devices that can be used to share camera frames.
