@@ -53,7 +53,7 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 
     2. Navigation2
         ```bash
-        git clone https://github.com/ros-planning/navigation2.git --branch eloquent-devell
+        git clone https://github.com/ros-planning/navigation2.git --branch eloquent-devel
         ```
 
     3. m-explore
