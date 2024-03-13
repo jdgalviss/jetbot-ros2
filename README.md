@@ -94,7 +94,7 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 
 6. Write a service that creates fake webcam devices that can be used to share camera frames.
     ```bash
-    gedit /etc/rc.local
+    sudo /etc/rc.local
     ```
     Copy and paste in file:
     ```bash
@@ -104,7 +104,7 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
     ```
     Save the file and make it executable with this command:
     ```bash
-    chmod +x /etc/rc.local
+    sudo chmod +x /etc/rc.local
     ```
 ## SLAM Support
  Install rtabmap and rtabmap_ros following these [instructions](https://github.com/introlab/rtabmap_ros/tree/ros2#rtabmap_ros) in the branch **ros2**.
