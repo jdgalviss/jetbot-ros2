@@ -48,7 +48,7 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
     1. SLAM-TOOLBOX
         ```bash
         cd jetbot-ros2/dev_ws/src
-        git clone -b eloquent-devel git@github.com:stevemacenski/slam_toolbox.git 
+        git clone -b eloquent-devel https://github.com/SteveMacenski/slam_toolbox.git 
         ```
 
     2. Navigation2
