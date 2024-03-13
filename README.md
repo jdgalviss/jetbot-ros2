@@ -35,8 +35,9 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 <!-- 0. Dependencies:
     ```bash
 
-        sudo apt install ros-eloquent-navigation2
-        sudo apt install ros-eloquent-nav2-bringup
+        sudo apt install ros-eloquent-navigation2 -y
+        sudo apt install ros-eloquent-nav2-bringup -y 
+        sudo apt install libopus-dev -y
 
     ``` -->
 1. Clone this repo and its submodules.
@@ -88,7 +89,7 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 
 5. Install pyfakewebcam so that camera frames can be modified inside a ROS2 node and then shared through webrtc:
     ```bash
-    apt-get install v4l2loopback-utils
+    sudo apt install v4l2loopback-utils -y
     pip3 install pyfakewebcam==0.1.0
     ```
 
