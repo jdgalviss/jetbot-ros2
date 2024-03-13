@@ -58,7 +58,7 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 
     3. m-explore
         ```bash
-        git clone -b eloquent https://github.com/robo-friends/m-explore-ros2.git
+        git clone https://github.com/robo-friends/m-explore-ros2.git
         ```
 
     4. BehaviorTree.CPP
