@@ -37,6 +37,7 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 
         sudo apt install ros-eloquent-navigation2
         sudo apt install ros-eloquent-nav2-bringup
+        sudo apt install libopus-dev # required to build the aiortc wheels
 
     ``` -->
 1. Clone this repo and its submodules.
