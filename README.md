@@ -32,13 +32,13 @@ I used the Xiaor Geek Jetbot as a base platform and modified it to include a wid
 * Motor Drivers - In this case, installed from the jetbot's [repository](https://github.com/NVIDIA-AI-IOT/jetbot/).
 
 # Installation
-<!-- 0. Dependencies:
+0. Dependencies:
     ```bash
 
         sudo apt install ros-eloquent-navigation2
         sudo apt install ros-eloquent-nav2-bringup
 
-    ``` -->
+    ```
 1. Clone this repo and its submodules.
     ```bash
     git clone --recurse-submodules https://github.com/jdgalviss/jetbot-ros2.git
